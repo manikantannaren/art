@@ -13,7 +13,13 @@ import picocli.CommandLine;
  *
  * @author manikantans
  */
-@CommandLine.Command
+@CommandLine.Command(
+        version = {
+            "0",
+            "0.1"
+        }
+)
+
 public abstract class AbstractCommand implements Callable<ExitCode> {
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     protected @CommandLine.ParentCommand ParentCommand commandContext;

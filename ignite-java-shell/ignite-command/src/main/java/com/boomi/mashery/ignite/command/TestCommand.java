@@ -53,17 +53,12 @@ public class TestCommand extends AbstractCommand {
     @Override
     public ExitCode call() throws Exception {
         PrintWriter out = commandContext.getWriter();
-        if (!Status.RUNNING.equals(commandContext.status())) {
-            out.println(" Not connected. Connect to an ignite cluser. Use connect -h for options");
-            return ExitCode.GENERIC_ERROR;
-        }
-
-        ClientNode node = commandContext.getCacheClient();
-        out.println("Connected");
-        out.println(node.connectionInfo());
+        Status status = commandContext.status();
+        CommandUtils.printStatus(status, commandContext.getWriter());
+        
         if (deepTest.get()) {
             try {
-                doFullTest(node, out);
+                doFullTest(commandContext.getCacheClient(), out);
             } catch (CacheClientException e) {
                 out.println("Test failed");
                 out.println(e.getMessage());
@@ -73,6 +68,13 @@ public class TestCommand extends AbstractCommand {
     }
 
     private void doFullTest(ClientNode node, PrintWriter out) throws CacheClientException {
+        out.println("Deep test will do the follwing steps:");
+        out.println("Create a cache by name testcache");
+        out.println("Insert a few keys");
+        out.println("Retrieve all keys");
+        out.println("Retrieve each key and value");
+        out.println("Destroy testcache");
+                
         LocalCache<String, Object> cache = node.getCache("testcache");
         Map<String, Object> data = Map.of("one", "1", "two", "22", "three", "333", "four", "4444", "five", "55555");
         cache.putAll(data);
@@ -80,13 +82,13 @@ public class TestCommand extends AbstractCommand {
         out.println(data);
 
         Set<String> allKeys = new TreeSet(cache.keys());
-        out.println("Fetched all keys from cache (Lexicographically sorted");
+        out.println("Keys from the cache");
+        out.println("-------------------");
         out.println(allKeys);
         for (String key : allKeys) {
             Object value = cache.get(key);
             out.println(key + ":::" + value);
         }
-        
         node.destroyCache("testcache");
     }
 

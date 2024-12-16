@@ -33,7 +33,7 @@ public class DumpKeysCommand extends AbstractCommand {
                 "Does a substring match of keys to filter"
             }
     )
-    private String pattern="";
+    private String pattern = "";
 
     @Override
     public ExitCode call() throws Exception {
@@ -43,7 +43,7 @@ public class DumpKeysCommand extends AbstractCommand {
         //Using Stringutils since it does empty string match as well
         keys.stream().filter(key -> StringUtils.contains(key, pattern))
                 .forEach(pk -> {
-                    out.println("Key:: "+pk);
+                    out.println("Key:: " + pk);
                 });
         return ExitCode.SUCCESS;
     }
