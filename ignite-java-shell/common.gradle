@@ -1,0 +1,59 @@
+//
+// This file is to be applied to every subproject.
+//
+String mavenGroupId = 'com.boomi.mashery'
+String mavenVersion = '0.1'
+
+sourceCompatibility = '1.17'
+//sourceCompatibility = '1.21'
+[compileJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+implementation 'org.apache.commons:commons-lang3:3.17.0'
+
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+implementation 'ch.qos.logback:logback-core:1.5.11'
+
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+implementation 'ch.qos.logback:logback-classic:1.5.11'
+
+// https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
+implementation 'org.apache.commons:commons-collections4:4.5.0-M2'
+
+// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.11.3'
+
+// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
+
+}
+
+test{
+    jvmArgs=["--add-opens","java.base/jdk.internal.misc=ALL-UNNAMED",
+                "--add-opens","java.base/sun.nio.ch=ALL-UNNAMED",
+                "--add-opens","java.base/sun.nio.ch=ALL-UNNAMED",
+                "--add-opens","java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED",
+                "--add-opens","jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED",
+                "--add-opens","java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED",
+                "--add-opens","jdk.management/com.sun.management.internal=ALL-UNNAMED",
+                "--add-opens","java.base/java.io=ALL-UNNAMED",
+                "--add-opens","java.base/java.nio=ALL-UNNAMED",
+                "--add-opens","java.base/java.util=ALL-UNNAMED",
+                "--add-opens","java.base/java.lang=ALL-UNNAMED",
+                "--add-opens","java.base/java.util.concurrent.atomic=ALL-UNNAMED",
+                "--add-opens","java.base/java.net=ALL-UNNAMED",
+]
+    environment "forTest", true
+    useJUnitPlatform()
+}
+
+compileJava{
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+}

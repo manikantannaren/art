@@ -1,0 +1,17 @@
+description = 'Ignite cmd shell'
+allprojects {
+    group = 'com.boomi.mashery'
+    apply plugin: 'base' // To add "clean" task to the root project.
+
+    apply plugin: 'java' // To add "clean" task to the root project.
+    apply plugin: 'java-library'
+    
+}
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    apply from: rootProject.file('common.gradle')
+}

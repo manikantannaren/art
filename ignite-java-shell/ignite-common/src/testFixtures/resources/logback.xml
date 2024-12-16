@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
+    <property name="encoderPattern" value="%d{dd-MM-YYYY HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+    <!-- Appenders for Proxy debug and error - Catch all-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${encoderPattern}</pattern>
+        </encoder>
+    </appender>
+   
+    
+    <!-- Loggers -->
+    <logger name="com.boomi.mashery" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <logger name="org.testcontainers" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <!-- Turn on debug logging for our Management Agent -->
+
+    <!-- root logger for catch all -->
+    <root level="OFF">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>

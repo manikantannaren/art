@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+    <property name="discoverySpi">
+        <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+            <property name="ipFinder">
+                <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                    <property name="addresses">
+                        <value>LOCAL_ADDRESS:47500</value>
+                    </property>
+                </bean>
+            </property>
+        </bean>
+    </property>
+    <property name="dataStorageConfiguration">
+        <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
+            <property name="dataRegionConfigurations">
+                <list>
+                    <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
+                        <property name="name" value="memcache"/>
+                        <property name="metricsEnabled" value="true"/>
+                        <property name="initialSize" value="#{1024L * 512}"/>
+                        <property name="maxSize" value="#{1024L * 512}"/>
+                        <property name="pageEvictionMode" value="RANDOM_2_LRU"/>
+                    </bean>
+                </list>
+            </property>
+        </bean>
+        <property name="cacheConfiguration">
+            <list>
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="memcount"/>
+                    <property name="cacheMode" value="REPLICATED"/>
+                    <property name="statisticsEnabled" value="{{.Values.statisticsEnabled}}"/>
+                    <property name="dataRegionName" value="counter"/>
+                    <property name="cacheStoreFactory">
+                        <bean class="com.csg.apim.ignite.datastore.CacheJdbcCounterStoreFactory">
+                            <property name="dataSourceBean" value="mysqlDataSource"/>
+                        </bean>
+                    </property>
+                    <property name="readThrough" value="false"/>
+                    <property name="writeThrough" value="true"/>
+                    <property name="writeBehindEnabled" value="true"/>
+                    <property name="writeBehindFlushFrequency" value="300000"/>
+                </bean>
+            </list>
+        </property>
+</beans>

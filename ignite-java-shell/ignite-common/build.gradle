@@ -1,0 +1,8 @@
+apply plugin: 'java-library'
+apply plugin: "java-test-fixtures"
+
+description = 'Ignite common utilities'
+dependencies{
+    testFixturesImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
+    testFixturesImplementation 'org.testcontainers:junit-jupiter:1.20.3'
+}
