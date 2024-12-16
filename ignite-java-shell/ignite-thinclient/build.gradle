@@ -1,0 +1,14 @@
+apply plugin: 'java-library'
+
+description = 'Ignite thin client'
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.apache.ignite/ignite-core
+    implementation 'org.apache.ignite:ignite-core:2.16.0'
+    // https://mvnrepository.com/artifact/org.apache.ignite/ignite-kubernetes
+    implementation 'org.apache.ignite:ignite-kubernetes:2.16.0'
+
+    implementation project(':ignite-common')
+    testImplementation 'org.testcontainers:junit-jupiter:1.20.3'
+    testImplementation testFixtures(project(":ignite-common"))
+}
